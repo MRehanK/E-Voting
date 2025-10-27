@@ -17,7 +17,7 @@
 
 mod admin;
 mod models;
-mod security;
+mod auth;
 
 use clap::{Parser, Subcommand, Args};
 use rusqlite::{params, Connection};
