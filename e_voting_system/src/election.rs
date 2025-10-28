@@ -17,6 +17,15 @@ use std::collections::HashMap;
 /// Represents a basic election record.
 #[derive(Debug)]
 // First we setup a small SQLite darabase
+fn setup_database(conn: &Connection) -> Result<()> {
+    conn.execute(
+        "CREATE TABLE IF NOT EXISTS elections (
+            id INTEGER PRIMARY KEY,
+            title TEXT NOT NULL,
+            status TEXT NOT NULL
+        )",
+        [],
+    )?;
 /// Sets up a small SQLite database for testing.
 fn setup_database(conn: &Connection) -> Result<()> {
     conn.execute(
@@ -51,3 +60,4 @@ fn close_election(conn: &Connection, election_id: i32) -> Result<()> {
     println!("Election {} has been CLOSED.", election_id);
     Ok(())
 }
+
