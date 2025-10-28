@@ -28,6 +28,7 @@ pub struct Candidate {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
+#[allow(dead_code)]
 pub struct Voter {
     pub id: i64,
     pub fullname: String,

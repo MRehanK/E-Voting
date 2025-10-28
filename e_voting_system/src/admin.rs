@@ -20,8 +20,8 @@
 
 use rusqlite::{params, Connection};
 use chrono::Utc;
-use crate::models::{Candidate, Election, Voter};
-use crate::security::{hash_password};
+use crate::models::Election;
+use crate::auth::{hash_password};
 
 pub struct AdminService<'a> {
     conn: &'a Connection,
@@ -52,6 +52,7 @@ impl<'a> AdminService<'a> {
         Ok(())
     }
 
+    #[allow(dead_code)]
     pub fn delete_election(&self, election_id: i64) -> rusqlite::Result<()> {
         self.conn.execute("DELETE FROM elections WHERE id=?1", params![election_id])?;
         Ok(())
@@ -65,6 +66,7 @@ impl<'a> AdminService<'a> {
         Ok(())
     }
 
+    #[allow(dead_code)]
     pub fn update_candidate(&self, candidate_id: i64, new_name: &str, new_party: &str) -> rusqlite::Result<()> {
         self.conn.execute(
             "UPDATE candidates SET name=?1, party=?2 WHERE id=?3",
@@ -72,6 +74,7 @@ impl<'a> AdminService<'a> {
         Ok(())
     }
 
+    #[allow(dead_code)]
     pub fn remove_candidate(&self, candidate_id: i64) -> rusqlite::Result<()> {
         self.conn.execute("DELETE FROM candidates WHERE id=?1", params![candidate_id])?;
         Ok(())
@@ -86,6 +89,7 @@ impl<'a> AdminService<'a> {
         Ok(self.conn.last_insert_rowid())
     }
 
+    #[allow(dead_code)]
     pub fn remove_voter(&self, voter_id: i64) -> rusqlite::Result<()> {
         self.conn.execute("DELETE FROM voters WHERE id=?1", params![voter_id])?;
         Ok(())
@@ -124,6 +128,7 @@ impl<'a> AdminService<'a> {
     }
 
     // ------------------ Coordination ------------------
+    #[allow(dead_code)]
     pub fn coordinate_with_district(&self) {
         println!("Admins can view district statuses and coordinate vote phases.");
         // Placeholder for messaging or API integration logic later
