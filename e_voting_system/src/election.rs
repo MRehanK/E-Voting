@@ -46,7 +46,7 @@ fn setup_database(conn: &Connection) -> Result<()> {
 
     // Add some sample votes
     conn.execute("DELETE FROM votes", [])?;// foe better security we delete old vote if it exists
-    let sample_votes = vec![               // Basically there sre three toples election_id, position_id and candidate_id 
+    let sample_votes = vec![               // Basically there are three toples election_id, position_id and candidate_id 
         (1, 101, 201),                     // Two votes for candidate 201 in position 101 of election 1  
         (1, 101, 201),
         (1, 101, 202),
@@ -71,6 +71,7 @@ struct Election {
     status: String,
 }
 
+
 /// Opens an election so voters can start casting ballots.
 fn open_election(conn: &Connection, election_id: i32) -> Result<()> {
     conn.execute(
@@ -89,6 +90,7 @@ fn close_election(conn: &Connection, election_id: i32) -> Result<()> {
     println!("Election {} has been CLOSED.", election_id);
     Ok(())
 }
+
 
 
 
