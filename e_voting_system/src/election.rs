@@ -45,9 +45,9 @@ fn setup_database(conn: &Connection) -> Result<()> {
     )?;
 
     // Add some sample votes
-    conn.execute("DELETE FROM votes", [])?;
-    let sample_votes = vec![
-        (1, 101, 201),
+    conn.execute("DELETE FROM votes", [])?;// foe better security we delete old vote if it exists
+    let sample_votes = vec![               // Basically there sre three toples election_id, position_id and candidate_id 
+        (1, 101, 201),                     // Two votes for candidate 201 in position 101 of election 1  
         (1, 101, 201),
         (1, 101, 202),
         (1, 102, 203),
@@ -55,7 +55,16 @@ fn setup_database(conn: &Connection) -> Result<()> {
         (1, 102, 204),
     ];
 
-    
+   for (election_id, position_id, candidate_id) in sample_votes {
+        conn.execute(
+            "INSERT INTO votes (election_id, position_id, candidate_id)
+             VALUES (?1, ?2, ?3)",        // Uses ?1, ?2, ?3 placeholders and params![] for safe insertion
+            params![election_id, position_id, candidate_id],
+        )?;
+    }
+
+    Ok(())
+}  
 struct Election {
     id: i32,
     title: String,
@@ -80,5 +89,6 @@ fn close_election(conn: &Connection, election_id: i32) -> Result<()> {
     println!("Election {} has been CLOSED.", election_id);
     Ok(())
 }
+
 
 
