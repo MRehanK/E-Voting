@@ -26,16 +26,36 @@ fn setup_database(conn: &Connection) -> Result<()> {
         )",
         [],
     )?;
-/// Sets up a small SQLite database for testing.
-fn setup_database(conn: &Connection) -> Result<()> {
+
     conn.execute(
-        "CREATE TABLE IF NOT EXISTS elections (
+        "CREATE TABLE IF NOT EXISTS votes (
             id INTEGER PRIMARY KEY,
-            title TEXT NOT NULL,
-            status TEXT NOT NULL
+            election_id INTEGER,
+            position_id INTEGER,
+            candidate_id INTEGER
         )",
         [],
     )?;
+
+    // Add a demo election if not already present
+    conn.execute(
+        "INSERT OR IGNORE INTO elections (id, title, status)
+         VALUES (1, 'General Election 2025', 'Draft')",
+        [],
+    )?;
+
+    // Add some sample votes
+    conn.execute("DELETE FROM votes", [])?;
+    let sample_votes = vec![
+        (1, 101, 201),
+        (1, 101, 201),
+        (1, 101, 202),
+        (1, 102, 203),
+        (1, 102, 203),
+        (1, 102, 204),
+    ];
+
+    
 struct Election {
     id: i32,
     title: String,
@@ -60,4 +80,5 @@ fn close_election(conn: &Connection, election_id: i32) -> Result<()> {
     println!("Election {} has been CLOSED.", election_id);
     Ok(())
 }
+
 
